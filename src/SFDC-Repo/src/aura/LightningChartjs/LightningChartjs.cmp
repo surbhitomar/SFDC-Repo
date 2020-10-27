@@ -1,0 +1,25 @@
+<aura:component controller="ChartController" implements="flexipage:availableForAllPageTypes" access="global">
+	<ltng:require scripts="{!$Resource.Chart}" />
+    <aura:handler name="init" value="{!this}" action="{!c.ctr2}"/>
+
+    <aura:attribute name="sObj" type="String" default="Opportunity"/>
+	<aura:attribute name="X_AxisFieldV" type="String" default="LeadSource"/>
+    <aura:attribute name="Y_AxisFieldV" type="String" default="Amount"/>
+    <aura:attribute name="SummarizeTypeV" type="String" default="Count"/>
+    <!--SummarizeTypeV could be Count, Sum, Average -->
+    <aura:attribute name="chartTypeV" type="String" default="bar"/>
+    <!--For pie and doughnut X_AxisFieldV would be grouped EX. Y_AxisFieldV would be Count, 
+	Sum of Amount, avarage of probability summarized etc.-->
+    
+    <!-- Working with Pie,Bar,radar,doughnut, -->
+   
+    <aura:attribute name="picklistvalues" type="String[]"/>
+    <aura:attribute name="mapOfChartValues" type="Map" />
+
+    <div class="slds-col slds-size--1-of-1 slds-small-size--1-of-2 slds-medium-size--3-of-4">
+        <canvas aura:id="barChart" id="barChart" />
+    </div>
+    <div class="slds-col slds-size--1-of-1 slds-small-size--1-of-2 slds-medium-size--3-of-4">
+        <canvas aura:id="lineChart" id="lineChart"/>
+    </div>
+</aura:component>

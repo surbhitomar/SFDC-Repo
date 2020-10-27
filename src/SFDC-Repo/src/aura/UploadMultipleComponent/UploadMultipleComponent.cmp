@@ -1,0 +1,14 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+                        access="global" >
+<aura:attribute access="public" name="sObjectName" type="String" default=""/>
+<aura:attribute access="public" name="sObjectId" type="String" default=""/>
+<aura:attribute access="public" name="accept" type="List" default="['.jpg', '.jpeg', '.docx', '.pdf', '.ppt', '.pptx', '.xls', '.xlsx', '.gif','.png', '.csv']"/>
+    
+<lightning:fileUpload label="Upload Multiple files"
+                               multiple="true"
+                              accept=".pdf, .png, .docx "
+                              recordId="{!v.sObjectId}"
+                              aura:id="multipleUpload"
+                             onuploadfinished="{!c.handleUploadFinished}" />
+
+</aura:component>

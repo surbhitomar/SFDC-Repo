@@ -1,0 +1,62 @@
+<aura:component controller="OpportunityEditForm_Ctrl" access="global" >
+    <aura:attribute name="recordTypeId" type="String" />
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="sObjectName" type="String" />
+    <aura:attribute name="sectionHeader" type="String"  />
+    <aura:attribute name="sectionfieldSetName" type="String"  />
+    <aura:attribute name="sectionFields" type="Object[]"  />
+    <aura:attribute name="relatedProducts" type="OpportunityLineItem[]"  />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <aura:attribute name="showSpinner" type="Boolean" default="false" />
+    
+   
+    <aura:attribute name="opportunity" type="Opportunity"/>
+    <force:recordData aura:id="opportunityRecord"
+                      recordId="{!v.recordId}"
+                      targetFields="{!v.opportunity}"
+                      layoutType="FULL"/>
+
+    
+    <aura:if isTrue="{!v.showSpinner}">
+        <lightning:spinner />
+    </aura:if>
+    <lightning:recordEditForm aura:id="test"
+                              objectApiName="{! v.sObjectName }"
+                              recordId="{! v.recordId }"
+                              recordTypeId="{! v.recordTypeId }">
+        <lightning:messages />
+        
+        <div style="background: white;">
+            <div class="slds-page-header__row">
+                <div class="slds-page-header__col-title">
+                    
+                    <div class="slds-media">
+                        <div class="slds-media__figure">
+                            <lightning:icon iconName="action:new_opportunity" size="small" alternativeText="{! v.sObjectName }"/>
+                        </div>
+                        <div class="slds-media__body">
+                            <div class="slds-page-header__name" style="width:100%">
+                                <div class="slds-page-header__name-title" style="width:100%">
+                                    <h1>
+                                        <span>{! v.sObjectName }</span>
+                                        <span class="slds-page-header__title" title="{!v.opportunity.Name}">{!v.opportunity.Name}</span>
+                                    </h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-page-header_vertical"><br/>
+				<c:OpportunityEditFormSections sectionHeader="{!v.sectionHeader}"
+									   sectionFields="{! v.sectionFields }"/>
+            </div>
+            <center>
+                <div class="slds-page-header__col-actions">
+                    <lightning:button variant="brand" type="Submit" label="Submit" title="Submit"/>
+                </div>
+            </center>
+        </div>
+    </lightning:recordEditForm>    
+</aura:component>

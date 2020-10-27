@@ -1,0 +1,18 @@
+<apex:page showHeader="false" sidebar="false">
+    <apex:pageBlock title="VF Page !!!">
+    
+    <apex:includeLightning />    
+    <div id="LightningComponentid" />    
+    <script>
+    $Lightning.use("c:AppForLWC", function() {
+        $Lightning.createComponent("c:helloLWC",
+          { 
+          },
+          "LightningComponentid",
+          function(cmp) {
+             console.log('LWC Component added in VF page');
+          });
+    });
+    </script>
+    </apex:pageBlock>
+</apex:page>

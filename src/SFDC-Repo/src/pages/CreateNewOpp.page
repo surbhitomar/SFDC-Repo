@@ -1,0 +1,65 @@
+<apex:page StandardController="Account" sidebar="false" showHeader="false">
+    <apex:includeLightning />
+    <apex:includeScript value="/soap/ajax/41.0/connection.js"/>
+    <apex:includeScript value="/soap/ajax/41.0/apex.js"/>
+    
+    <div id="LcDisplayId"></div> 
+    
+ <script>
+    $Lightning.use("c:OpenSubtabForAcc_APP", function() {
+    $Lightning.createComponent("c:OpenSubtabForAcc",
+    { 
+        recordId : '{!Account.Id}',
+        isClassic : true
+    },
+   "LcDisplayId",
+    function(component) {
+        $A.eventService.addHandler({ "event": "c:RefreshVFPageEvent", "handler" : visualForceFunction});
+       
+    });
+ });
+ </script>
+ <apex:includeScript value="/support/console/40.0/integration.js"/>
+
+ <script>
+    //handler called in lightning out function
+    var myEventData;
+    var __sfdcSessionId = '{!GETSESSIONID()}'; 
+    console.log('__sfdcSessionId : '+__sfdcSessionId);
+    sforce.connection.sessionId = "{!$Api.Session_ID}";
+  
+    var visualForceFunction = function(event){
+        myEventData = event.getParam("data");
+        alert('-myEventDataa-->'+myEventData);
+        
+        if(sforce.console.isInConsole()){
+            
+            if(myEventData != null){
+                //alert('should open');
+                    try{
+                        var name = sforce.connection.query("select name,AccountId from opportunity where id='"+myEventData+"'");
+                        var records = name.getArray('records'); 
+                        console.log('--records--'+accId);
+                        var fname = records[0].Name; 
+                        var accId = records[0].AccountId;
+                        console.log('--accId--'+accId);
+                        console.log('--fname--'+fname);
+                        //sforce.console.getEnclosingPrimaryTabId(function(primarytab){
+                        // sforce.console.openSubtab(primarytab.id,'/'+myEventData,true,fname, null, function(result){},fname);});
+                        
+                        // sforce.console.openPrimaryTab(null,'/'+accId, false, 'salesforce', null, 'salesforceTab');
+                		
+                    }catch(err){
+                        alert('error'+err);}
+                }
+          
+           }
+     
+    };
+   
+     
+           
+//Close tab in Browser
+ 
+</script>
+</apex:page>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>Chart_js1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Chart.js1</shortDescription>
+        <value>https://github.com/nitish231/team-force/tree/master/Create%20Lightning%20Charts%20With%20Chart.Js</value>
+    </labels>
+    <labels>
+        <fullName>Chart_js2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Chart.js2</shortDescription>
+        <value>https://sfdcbrewery.github.io/ChartJsSalesforceLightning/</value>
+    </labels>
+    <labels>
+        <fullName>ProspectAccount</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ProspectAccount</shortDescription>
+        <value>Account type should be Prospect</value>
+    </labels>
+</CustomLabels>

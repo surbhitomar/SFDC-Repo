@@ -1,0 +1,73 @@
+<apex:page standardController="Contact" recordSetvar="Cont" sidebar="false" extensions="exampleLightningVf" showHeader="false" tabStyle="Contact">
+
+  
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+        <head>
+            <style>
+                .head{
+                font-size:1.3em;
+                }
+                .slds-scope .slds-icon-standard-account {
+                background-color: #7f8de1;
+                width: 35px;
+                height: 33px;
+                margin-right: 10px;
+                margin-top: 3px;
+                }
+                .wk_btn{
+                margin: 10px 45% !important;
+                }
+                 
+            </style>
+        </head>
+        <apex:Slds rendered="{!ligtningMode}"/> 
+        <div class = "slds-scope">
+            <apex:form >
+                <apex:outputpanel styleclass="slds-grid" >
+                    <apex:outputpanel styleclass="slds-col slds-p-horizontal_small slds-size_1-of-2 slds-medium-size_5-of-6 slds-large-size_8-of-12" rendered="{!ligtningMode}">
+                        <div class="slds-page-header" role="banner">
+                            <div class="slds-grid">
+                                <span class="slds-icon_container slds-icon-standard-account">
+                                    <svg aria-hidden="true" class="slds-icon">
+                                        <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/standard-sprite/svg/symbols.svg#account')}"></use>
+                                    </svg>
+                                    <span class="slds-assistive-text">Contact Icon</span>
+                                </span>
+                                <div class="slds-col">
+                                    <h1 class="slds-text-heading--medium">Contact </h1>
+                                    <p class="slds-text-heading--label">Home</p>
+                                </div>
+                            </div> 
+                        </div>
+                    </apex:outputpanel>
+                </apex:outputpanel>
+                 
+                <apex:sectionHeader title="Contacts" subtitle="Home" help="https://help.salesforce.com/articleView?err=1&id=contacts_overview.htm&siteLang=en_US&type=0" rendered="{!!ligtningMode}"  /> 
+              <!--  <apex:pageBlock mode="{!pbMode}">
+                    <apex:commandButton value="New" action="/001/e" styleClass="slds-button slds-button_neutral wk_btn"/>
+                    <apex:pageBlockTable value="{!cont}" var="item"  id="list" styleClass="slds-table slds-table--bordered slds-table--striped slds-table--cell-buffer slds-table--fixed-layout wk_table">
+                        <apex:column headerValue="Name" headerClass="slds-text-heading--label " styleClass="slds-truncate wk_table">
+                            <apex:outputLink value="/{!item.id}">
+                                <apex:outputText >{!item.name}</apex:outputText>
+                            </apex:outputLink>
+                        </apex:column>
+                        <apex:column headerValue="Account Name" headerClass="slds-text-heading--label" styleClass="slds-truncate wk_table">
+                            <apex:outputLink value="/{!item.id}">
+                                <apex:outputtext value="{!item.name}"/>
+                            </apex:outputlink>
+                        </apex:column>
+                         
+                        <apex:column headerValue="Phone" headerClass="slds-text-heading--label" styleClass="slds-truncate wk_table">
+                            <apex:outputtext value="{!item.phone}"/>
+                        </apex:column>
+                         
+                    </apex:pageBlockTable>    
+                     
+                     
+                </apex:pageBlock>-->
+                 
+                 
+            </apex:form>
+        </div>
+    </html>
+</apex:page>

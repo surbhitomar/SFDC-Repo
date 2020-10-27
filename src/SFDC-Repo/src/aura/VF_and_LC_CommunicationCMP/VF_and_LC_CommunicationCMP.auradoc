@@ -1,0 +1,7 @@
+<aura:documentation>
+	<aura:description>Documentation</aura:description>
+	<aura:example name="ExampleName" ref="exampleComponentName" label="Label">
+		calling from custom button(Detail Page Button) named 'OpenNCloseConsoleSubTab' 
+        on Contact layout
+	</aura:example>
+</aura:documentation>

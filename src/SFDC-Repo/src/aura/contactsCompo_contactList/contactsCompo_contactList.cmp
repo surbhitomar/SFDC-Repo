@@ -1,0 +1,46 @@
+<aura:component controller="ContactListController"  implements="force:appHostable">
+    <!-- Handle component initialization in a client-side controller -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    <!-- Dynamically load the list of contacts -->
+    <aura:attribute name="contacts" type="contact[]" />
+    <aura:attribute name="contactList" type="contact[]" />
+    <aura:attribute name="totalContacts" type="integer" />
+    
+    <!-- Page header with a counter that displays total number of contacts -->
+    <div class="slds-page-header slds-page-header_object-home">
+    	<lightning:layout >
+            <lightning:layoutItem >
+                <lightning:icon iconName="standard:contact" />
+            </lightning:layoutItem>
+          <lightning:layoutItem class="slds-m-left_small">
+              <p class="slds-text-title_caps slds-line-height_reset">Contacts</p>
+              <h1 class="slds-page-header__title slds-p-right_x-small">Contact Viewer</h1>
+		  </lightning:layoutItem>
+       </lightning:layout>
+       <lightning:layout >
+           <lightning:layoutItem >
+               <p class="slds-text-body_small">{!v.totalContacts} Contacts • View Contacts Based on
+                   Lead Sources</p>
+           </lightning:layoutItem>
+        </lightning:layout>
+    </div>
+    
+    <!-- Body with dropdown menu and list of contacts -->
+    <lightning:layout >
+        <lightning:layoutItem >
+           <lightning:select label="Lead Source" name="source" 
+                             onchange="{!c.handleSelect}" >
+               <option value="None">-- Select a Lead Source --</option>
+               <option value="Referral">Referral</option>
+               <option value="Phone Inquiry">Phone Inquiry</option>
+               <option value="All">All</option>     
+            </lightning:select>           
+    
+            <!-- Iterate over the list of contacts and display them -->
+            <aura:iteration items="{!v.contacts}" var="cont">
+                <c:contacts contact="{!cont}" />
+            </aura:iteration>
+		</lightning:layoutItem>
+    </lightning:layout>
+</aura:component>

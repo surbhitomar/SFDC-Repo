@@ -1,0 +1,35 @@
+<aura:component >
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <!-- P3 -->
+    <!-- Getting Single variable from Parent Component -->
+    <h1>Child Component Attribute</h1>
+    <aura:handler name="change" value="{!v.childAttr}" action="{!c.onChildAttributeChange}"/>
+    <aura:attribute name="childAttr" type="String" />
+    <lightning:input name="Child Attr" value="{!v.childAttr}" label="Child Attr"/>
+    
+    <!-- P2 -->
+    <!-- Getting multiple variables from parent component -->
+    
+    <h1>Child Component Method Demo</h1>
+    <aura:method name="myMethodToGetVariables" action="{!c.executeMyMethod}"> 
+        <aura:attribute name="param1" type="String"/> 
+        <aura:attribute name="param2" type="String"/> 
+    </aura:method> 
+    
+    <!-- P1 -->
+    <!-- This Aura method is used to call Child method from parent component  -->
+    <aura:method name="callChildFunc" action="{!c.callChildMethod}" />
+    
+    <!-- P4 -->
+    <!-- Unbound Expression Example -->
+    <!--
+    <aura:attribute name="childAttrUn" type="String" />
+
+    <p>childExpr childAttrUn: {!v.childAttrUn}</p>
+    <lightning:input name="Child Attr" value="{!v.childAttrUn}" label="Child Attr"/>
+    <p><lightning:button label="Update childAttrUn" 
+          onclick="{!c.updateChildAttr}"/></p>  -->
+    
+</aura:component>

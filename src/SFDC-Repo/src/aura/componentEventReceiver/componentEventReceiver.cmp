@@ -1,0 +1,5 @@
+<aura:component>
+    <aura:handler name="myComponentEvent" event="c:componentEvent" action="{!c.handleMyComponentEvent}"/>
+	<h1>Receiver</h1>
+    <c:componentEventSender/>
+</aura:component>

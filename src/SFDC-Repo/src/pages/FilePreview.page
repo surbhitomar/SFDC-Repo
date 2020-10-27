@@ -1,0 +1,31 @@
+<apex:page standardController="ContentVersion" sidebar="false" showHeader="false" >
+    <apex:pageBlock >
+        <apex:pageBlockSection title="{!ContentVersion.Title} - {!ContentVersion.Id}" >
+            <apex:outputField value="{!ContentVersion.Title}"/>
+            <apex:outputField value="{!ContentVersion.TagCSV}"/>
+            <apex:outputField value="{!ContentVersion.CreatedDate}"/>
+            <apex:outputField value="{!ContentVersion.Description}"/>
+            <apex:outputField value="{!ContentVersion.FileType}"/>
+            <apex:outputField value="{!ContentVersion.Title}"/>
+        
+        </apex:pageBlockSection>
+    </apex:pageBlock>
+
+
+<div id="dpvPreviewWrapper" align="center">
+<h2 class="filePreviewHeading">Preview</h2>
+
+
+<div class="chatterFileViewerPanel" id="chatterFileViewerPanel">
+  <embed src="/_swf/190003/sfc/flex/DocViewer.swf"
+  flashvars="shepherd_prefix=https://examplesorg-dev-ed--c.ap5.visual.force.com/sfc/servlet.shepherd&v=0697F00000jX8yr&mode=chatterfilepreview&in_tests=false"
+  width="100%" height="100%" align="middle" id="renditionLarge" 
+  quality="high" bgcolor="#f3f3f3" name="renditionLarge" 
+  allowscriptaccess="sameDomain" allowfullscreen="true" 
+  pluginspage="http://www.adobe.com/go/getflashplayer" 
+  wmode="opaque" 
+  type="application/x-shockwave-flash" />
+</div>
+
+</div>
+</apex:page>

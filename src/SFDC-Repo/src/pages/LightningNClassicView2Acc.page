@@ -1,0 +1,85 @@
+<apex:page standardController="Account" extensions="LightningNClassicView2AccCtrl">
+<html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+    <apex:variable var="lightningDesktop" value="{! $User.UIThemeDisplayed == 'Theme4d'}" />
+    <div class="slds-scope">
+        <apex:outputPanel rendered="{! !lightningDesktop}">
+            <link class="user" href="/sCSS/38.0/sprites/1245343872000/Theme3/default/elements.css" rel="stylesheet" type="text/css" />
+            <link  href="/sCSS/38.0/sprites/1251310209000/Theme3/dStandard.css" rel="stylesheet" type="text/css" />
+                <apex:form >  
+               <apex:pageBlock id="contacts_list">
+                    <div class="slds-card">
+                      
+                        <table class="slds-table slds-table--bordered slds-table--cell-buffer">
+                            <thead>
+                                <tr class="slds-text-title--caps">
+                                    <th scope="col">
+                                        <div class="slds-truncate" title="Name">Name</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="slds-truncate" title="Phone">Phone</div>
+                                    </th>
+                                  
+                                </tr>
+                            </thead>
+                            <tbody>
+                               
+                                    <tr>
+                                        <th scope="row" data-label="Name">
+                                            <div class="slds-truncate" title="{!Account.Name}">{!Account.Name}</div>
+                                        </th>
+                                        <td data-label="Phone">
+                                            <div class="slds-truncate" title="{!Account.Phone}">{!Account.Phone}</div>
+                                        </td>
+                                       
+                                    </tr>
+                              
+                            </tbody>
+                        </table>
+                    </div>
+                </apex:pageBlock>           
+            </apex:form>
+        </apex:outputPanel>
+        
+        <apex:outputPanel rendered="{! lightningDesktop}">
+            <apex:slds />
+          
+                <!-- 2nd -->
+           <div class="slds-grid slds-gutters">
+  <div class="slds-col">
+                <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-hint-parent">
+                
+                  <span class="slds-form-element__label">Status</span>
+                  <div class="slds-form-element__control">
+                    <div class="slds-form-element__static">In Progress</div>
+                    <button class="slds-button slds-button_icon" title="Edit: Status">
+                      <svg class="slds-button__icon slds-button__icon_hint" aria-hidden="true">
+                       <use lightning-primitiveIcon_primitiveIcon="" xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg?cache=9.24.0#edit"></use>
+                      </svg>
+                      <span class="slds-assistive-text">Edit: Status</span>
+                    </button>
+                  </div>
+                 </div>
+               
+                 </div>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <div class="slds-col">
+                 
+                  <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-hint-parent">
+                  <span class="slds-form-element__label">Phone</span>
+                  <div class="slds-form-element__control">
+                    <div class="slds-form-element__static">{!Account.Phone}</div>
+                    <button class="slds-button slds-button_icon" title="Edit: Status">
+                      
+                    </button>
+                  </div>
+                  
+                </div> 
+              </div>
+              </div> 
+                                         
+            
+           
+        </apex:outputPanel>
+    </div>
+ </html>   
+</apex:page>

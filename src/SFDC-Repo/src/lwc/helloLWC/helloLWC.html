@@ -1,0 +1,13 @@
+<template>
+    <lightning-card title="Lightning Web Component" icon-name="utility:connected_apps">
+        <div class="slds-m-around_medium">
+          
+          <p>Hello LWC, {greeting}!!</p>
+          <lightning-input label="Name" value={greeting} onchange={changeHandler}></lightning-input>
+        
+        </div>
+        <div>
+          <h1>Message From Aura: {auraMessage}</h1>
+        </div>
+    </lightning-card>
+</template>

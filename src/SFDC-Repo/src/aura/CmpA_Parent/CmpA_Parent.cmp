@@ -1,0 +1,54 @@
+<aura:component >
+    <!--
+This approach works great for processing an attribute. What about multiple attribute changes? 
+If you want to change two or more attributes and then trigger some logic, this method becomes
+ unwieldy. You can either combine the attributes into a larger object (not always practical) 
+or write a complex synchronization algorithm (please don’t). Instead, I recommend methods 
+for multiple attribute changes. -->
+    
+	<!--aura:handler name="lightningEvent" event="c:lightningEvent" action="{!c.handleEvent}"/ -->
+   <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+   <h1>Parent Component Attribute Demo</h1>
+   <!-- P3 -->
+   <!-- Pass Single variable to child component -->
+   <aura:attribute name="parentAttr" type="String" default="123"/>   
+   <lightning:input name="Parent Attr" value="{!v.parentAttr}" label="Parent Attr"/>    
+   <br />
+   <c:CmpB_Child childAttr="{!v.parentAttr}"/>
+    
+<!--
+Based on frequent exchanges with the developer community, I have gathered that methods tend
+to be overlooked in favor of attributes. However, I have found methods to be quite flexible,
+as they allow users to create and expose component APIs.
+ -->
+    <!-- P2 -->
+    <!-- Pass these variables to Child Component -->
+    <aura:attribute name="parentAttribute1" type="String" default="A"/>
+    <aura:attribute name="parentAttribute2" type="String" default="B"/>
+    <h1>Parent Component Method Demo</h1>
+    <lightning:button label="Call child method" onclick="{! c.onCallChildMethod }" />
+    <c:CmpB_Child aura:id="child"/> 
+    
+    <!-- P1 -->
+    <!-- Calling child component method from parent component without using variable -->
+    
+    <lightning:button variant="brand" label="Call child method from parent" name="callChild" onclick="{!c.callChild}"/><br />
+    This button will call child component's method.
+    <c:CmpB_Child aura:id="childComp" />
+    
+    <!-- P5 -->
+    
+    
+    <!-- P4 -->
+    <!-- Unbound Expression Example -->
+    <!--
+    <aura:attribute name="parentAttrUn" type="String" default="parent attribute"/> 
+    <c:CmpB_Child childAttrUn="{#v.parentAttrUn}" />
+       
+    <p>parentExpr parentAttrUn: {!v.parentAttrUn}</p>
+    <lightning:input name="Parent Attr" value="{!v.parentAttrUn}" label="Parent Attr"/>
+    <p><lightning:button label="Update parentAttrUn"
+          onclick="{!c.updateParentAttr}"/></p>  -->
+    
+</aura:component>

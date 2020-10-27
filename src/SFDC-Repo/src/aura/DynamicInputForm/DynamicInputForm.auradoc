@@ -1,0 +1,10 @@
+<aura:documentation>
+	<aura:description>Documentation</aura:description>
+	<aura:example name="ExampleName" ref="exampleComponentName" label="Label">
+		-> Using Dynamic add Rows and Delete Rows
+        -> Validation check on rows using dynamic names, as we can't make aua:id dynamic
+        using integer value
+        -> using recordEditForm in iteration table, that have dependent picklist values
+        -> 
+	</aura:example>
+</aura:documentation>

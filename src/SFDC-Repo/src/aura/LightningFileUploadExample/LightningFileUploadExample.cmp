@@ -1,0 +1,8 @@
+<aura:component access="global" implements="flexipage:availableForAllPageTypes,force:hasRecordId,force:lightningQuickActionWithoutHeader">
+
+<aura:attribute name="recordId" type="String"/>
+    <c:FileUpload />
+<!--c:UploadMultipleComponent sObjectId="{!v.recordId}" sObjectName="Account"/ -->
+<!--c:multipleFileUploads sObjectId="{!v.recordId}" sObjectName="Account" showUploadFile="true"/ -->
+
+</aura:component>

@@ -1,0 +1,22 @@
+<aura:component controller="CreateRecordCtrl" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction,lightning:isUrlAddressable" access="global" >
+	
+    <ltng:require scripts="/support/console/45.0/integration.js" />
+    <aura:attribute name="oppName" type="String" />    
+    <aura:attribute name="oppV" type="Opportunity" default="{'sobjectType': 'Opportunity',
+                         'Name': '','AccountId': '' }"/>
+    
+    <aura:handler name="init" value="this" action="{!c.doInit}" />
+	<aura:registerEvent name="myevent" type="c:RefreshVFPageEvent" />
+
+    
+    
+    <lightning:input label="Opportunity Name" value="{!v.oppV.Name}" aura:id="Name" name="Name"/>
+    <!--<lightning:input tyep="date" label="Close Date" value="{!v.oppV.CloseDate}" aura:id="Closedate" name="Closedate"/>
+    <lightning:input aura:id="Stage" name="Stage" label="Stage Name" value="{!v.oppV.StageName}"/>
+   
+    <lightning:input aura:id="propBeds" name="Account" label="Account" value="{!v.oppV.AccountId}"/>
+    -->   
+ 	<br />
+    <lightning:button class="btn btn-default" onclick="{!c.createOpp}">Create</lightning:button>
+    
+</aura:component>

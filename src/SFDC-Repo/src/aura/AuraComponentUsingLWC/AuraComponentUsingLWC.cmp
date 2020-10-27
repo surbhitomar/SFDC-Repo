@@ -1,0 +1,11 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+  
+    <lightning:card footer="Card Footer">
+        <h1>
+            <lightning:icon iconName="custom:custom14" ></lightning:icon>
+            <b>  Aura Component</b>
+        </h1>
+    <c:helloLWC auraMessage="A Message From Aura to LWC"></c:helloLWC>
+    </lightning:card>
+
+</aura:component>

@@ -1,0 +1,55 @@
+<aura:component controller="Account_CommonUtil" implements="force:appHostable" >
+    <aura:handler name="init" value="{!this}" action="{!c.doinit}" />
+    
+    <aura:attribute name="accountWrapperListV" type="Account_CommonUtil.AccountWrapper[]" />
+    <aura:attribute name="selectedAccountListV" type="Account[]" />
+    
+    <div class="slds-grid">
+         <!--This div will be of whole width on any screen-->
+          <div class="slds-col--padded slds-size--1-of-1 slds-p-bottom--large">
+            <div class="slds-box slds-box--small slds-theme--shade slds-text-align--center">1
+            <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-no-row-hover">
+              <thead>
+               <tr class="slds-text-heading_label">
+                <th scope="col"><div class="slds-truncate" title="Select">Select</div></th>   
+              	<th scope="col"><div class="slds-truncate" title="Account Name">Account Name</div></th>
+                <th scope="col"><div class="slds-truncate" title="Account Number">Account Number</div></th>
+                <th scope="col"><div class="slds-truncate" title="Account Owner">Owner</div></th>
+                <th scope="col"><div class="slds-truncate" title="Account Source">Source</div></th>
+                <th scope="col"><div class="slds-truncate" title="Account Revenue">Revenue</div></th>
+                <th scope="col"><div class="slds-truncate" title="Account Type">Type</div></th>
+                <th scope="col"><div class="slds-truncate" title="Industry">Industry</div></th>
+                <th scope="col"><div class="slds-truncate" title="CreatedBy">CreatedBy</div></th>  
+                </tr>
+              </thead>
+              <tbody>
+              <aura:iteration items="{!v.accountWrapperListV}" var="acc">           
+                <tr>
+                  <td><div class="slds-truncate"><lightning:input type="checkbox" label="" name="" value="{!acc.isSelect}" onchange="{!c.showSeletedRecords}"/></div></td>
+                  <th scope="row"><div class="slds-truncate" title="{!acc.account.Name}"><a href="{! '#/sObject/' + acc.Id + '/view'}">{!acc.account.Name}</a></div></th>
+                  <td><div class="slds-truncate" title="{!acc.account.AccountNumber}">{!acc.account.AccountNumber}</div></td>
+                  <td><div class="slds-truncate" title="{!acc.account.OwnerId}">{!acc.account.Owner.Name}</div></td>
+                  <td><div class="slds-truncate" title="{!acc.account.AccountSource}">{!acc.account.AccountSource}</div></td>
+                  <td><div class="slds-truncate" title="{!acc.account.AnnualRevenue}">{!acc.account.AnnualRevenue}</div></td>
+                  <td><div class="slds-truncate" title="{!acc.account.Type}">{!acc.account.Type}</div></td>
+                  <td><div class="slds-truncate" title="{!acc.account.Industry}">{!acc.account.Industry}</div></td>
+                  <td><div class="slds-truncate" title="{!acc.account.CreatedById}">{!acc.account.CreatedBy.Name}</div></td>
+                  
+                </tr>
+              </aura:iteration>    
+              </tbody>
+            </table> 
+            <br />
+           <!-- <lightning:button variant="brand" label="Proceed" title="Proceed" onclick="{!c.showSeletedRecords }" />   -->  
+           </div>
+         </div>
+        
+        <!--This div will be of whole width on any screen-->
+          <div class="slds-col--padded slds-size--1-of-1 slds-p-bottom--large">
+            <div class="slds-box slds-box--small slds-theme--shade slds-text-align--center">2</div>
+          </div>
+        
+        
+    </div>
+	
+</aura:component>

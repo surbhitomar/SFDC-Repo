@@ -1,0 +1,8 @@
+<aura:component implements="force:appHostable" >
+<!--1. The component implements the force:appHostable interface to indicate that it can run in the 
+Salesforce1 application  -->	
+    <c:SearchBar />
+    <c:ContactList />
+    
+    
+</aura:component>

@@ -1,0 +1,33 @@
+<apex:page >
+    <apex:includeLightning />
+    <apex:includeScript value="/soap/ajax/33.0/connection.js"/>
+    <apex:includeScript value="/soap/ajax/33.0/apex.js"/>
+    <div id="lightningComp" />
+    <script>
+    var targetId = '{!JSENCODE($CurrentPage.parameters.id)}';
+    sforce.connection.sessionId = '{!$Api.Session_ID}';
+    var attCount = sforce.connection.query("SELECT Count(Id) From ContentDocumentLink where LinkedEntityId ='"+targetId+"'");
+    if(attCount.getArray("records")[0].expr0 ==0){
+        callComponent();
+    } else {
+        if(confirm('You can have only one attachment. Please delete the existing attachment and then attach a new one.'))
+        {
+            window.history.back();
+        }
+    }
+    function callComponent(){
+        $Lightning.use("c:FileUploadApp", function() {
+            $Lightning.createComponent("c:FileUpload",
+                                       { 
+                                           recordId : targetId,      
+                                           pageName : '{!JSENCODE($CurrentPage.parameters.pgName)}',
+                                           multiple : false
+                                       },
+                                       "lightningComp",
+                                       function(cmp) {
+                                           console.log('Component created successfully'); 
+                                       });
+        });   
+    }
+    </script>
+</apex:page>

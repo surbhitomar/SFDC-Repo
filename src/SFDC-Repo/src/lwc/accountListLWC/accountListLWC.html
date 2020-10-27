@@ -1,0 +1,22 @@
+<template>
+    <lightning-card title="Account List From Apex For LWC" >
+
+            <template if:true={accounts.data}>
+                <template for:each={accounts.data} for:item="acc">
+        
+                        <lightning-tile key={acc.Id} label={acc.Name} type="media">
+                            <lightning-icon slot="media" icon-name="standard:groups" size="small"></lightning-icon>
+                            <ul class="slds-list_horizontal slds-has-dividers_right">
+                                <li class="slds-item">{acc.BillingCountry}</li>
+                            
+                            </ul>
+                        </lightning-tile>
+                    
+                </template>
+            </template>
+            <template if:true={accounts.error}>
+                {accounts.error}
+            </template>
+      
+        </lightning-card>
+</template>

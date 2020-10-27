@@ -1,0 +1,4 @@
+<aura:event type="APPLICATION" >
+    <!-- The event holds one argument: the new searchKey -->
+    <aura:attribute name="searchKeyy" type="String" />
+</aura:event>

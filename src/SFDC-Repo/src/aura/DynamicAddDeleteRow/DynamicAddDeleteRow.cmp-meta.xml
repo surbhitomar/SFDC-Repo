@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AuraDefinitionBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>49.0</apiVersion>
+    <description>DynamicAddDeleteRow -  The Account record is inserting in Lightning Component with Add Delete Rows functionality.
+
+https://www.biswajeetsamal.com/blog/dynamic-add-delete-row-in-lightning-component/</description>
+</AuraDefinitionBundle>

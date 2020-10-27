@@ -1,0 +1,33 @@
+<apex:page >
+<script src="/soap/ajax/36.0/connection.js" type="text/javascript"></script>
+
+<apex:outputPanel rendered="{! $User.UIThemeDisplayed == 'Theme3' }">
+    <apex:outputText value="This is Salesforce Classic."/>
+    <apex:outputText value="These are multiple components wrapped by an outputPanel."/>
+</apex:outputPanel>
+<apex:outputPanel rendered="{! $User.UIThemeDisplayed == 'Theme4d' }">
+    <apex:outputText value="Everything is simpler in Lightning Experience."/>
+</apex:outputPanel>
+<br /><br />
+<p>
+        Value of $User.UIThemeDisplayed: {! $User.UIThemeDisplayed }
+        
+</p>
+<br /><br />    
+<script type="text/javascript">
+//UITheme.getUITheme === "Theme4d";  in javascript to get theme nameS
+    // Query for the preference value
+    sforce.connection.sessionId = '{! $Api.Session_ID }';
+    var uiPrefQuery = "SELECT Id, UserPreferencesLightningExperiencePreferred " +
+                      "FROM User WHERE Id = '{! $User.Id }'";
+    var userThemePreferenceResult = sforce.connection.query(uiPrefQuery);
+    
+    // Display the returned result on the page
+    document.addEventListener('DOMContentLoaded', function(event){
+        document.getElementById('userThemePreferenceResult').innerHTML = 
+            userThemePreferenceResult;
+    });
+</script>
+<h1>userThemePreferenceResult (JSON)</h1>
+<pre><span id="userThemePreferenceResult"/></pre>
+</apex:page>

@@ -1,0 +1,5 @@
+<aura:component>
+    <aura:registerEvent name="myComponentEvent" type="c:componentEvent"/>
+    <h1>Sender</h1>
+	<lightning:button label="Fire component event" onclick="{! c.fireMyComponentEvent }" />
+</aura:component>

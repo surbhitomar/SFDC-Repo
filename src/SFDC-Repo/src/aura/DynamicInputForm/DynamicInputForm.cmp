@@ -1,0 +1,342 @@
+<aura:component controller="DynamicInputFormCtrl">
+
+    <div class="slds-box slds-m-around_none" > 
+        <div class="background">            
+            <div class="slds-grid slds-gutters">    
+             	<div class="slds-col">
+                 <b><h2>
+                    <span class="slds-text-heading--small slds-truncate" title="Submit" >Actions</span></h2></b>
+                    <br/>
+             	</div>  
+            </div>  
+            <lightning:buttonGroup>
+             <lightning:button variant="Neutral" label="New Business" title="New Business" onclick="{! c.openModal }" />
+             <lightning:button variant="Neutral" label="Existing Business" title="Existing Business" onclick="{! c.openModal }"/>
+             <lightning:button variant="Neutral" label="Archive Document" title="Archive Document" onclick="{! c.openModal }"/>
+             
+            </lightning:buttonGroup>
+            <br>&nbsp;</br>
+            <br>&nbsp;</br>
+            <lightning:button variant="Neutral" label="My Business Status" title="My Business Status" onclick="{!c.redirectToDocupaceStatusWidget}"/>
+        
+      </div>
+ </div>
+   
+<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+<aura:attribute name="varEBWrapper" type="object" /> 
+<aura:attribute name="varHeaderValue" type="String" default=''/>   
+<aura:attribute name="varSpinnerCls" type="String" default="slds-hide"/>
+<aura:attribute name="varIsModalOpen" type="Boolean" default="false"/>
+<aura:attribute name="varSponsor_CustodianList" type="String[]"/>
+<aura:attribute name="varSourceOfFundsList" type="String[]"/>
+<aura:attribute name="varRadioButtonOptions" type="List" default="[
+    {'label': 'Yes', 'value': 'Yes'},
+    {'label': 'No', 'value': 'No'} ]"/>
+<aura:attribute name="varSelectedRadioButtonVal" type="String" default=""/>
+<aura:attribute name="varErrorMsg" type="String" default=""/>
+<lightning:spinner aura:id="mySpinner" variant="brand" class="{!v.varSpinnerCls}" 
+                       size="large" alternativeText="Processing ..."/>
+     
+<!-- Client Search -->
+<aura:attribute name="varClientId" type="String" description="Account Id"/>
+<aura:attribute name="varClientObj" type="Account" description="For holding the selected record from customlookup" />
+<!-- aura:attribute name="varAdditionalQryFields" type="string" default=",FirstName,LastName,SSN__c,RecordType.DeveloperName" 
+                    description="For additional fields for customlookup"/ -->
+<!-- aura:handler name="change" value="{!v.varClientObj}" action="{!c.onClientSelect}"/ -->
+
+    <!-- Rep Number Search -->
+<aura:attribute name="varRepNumberObj" type="Object"/>
+<aura:attribute name="varNewRepName" type="String"/>
+<aura:attribute name="varOpenRepNumberSearch" type="Boolean" default="false"/>
+<!--    
+<aura:handler name="change" value="{!v.varRepNumberObj}" action="{!c.onRepNumberSelect}"/>
+<aura:handler name="change" value="{!v.varOpenRepNumberSearch}" action="{!c.repNumberSearch}"/>
+<aura:handler name="repNumberSearchEvent" event="c:repNumberSearchEvent" action="{!c.repNumberSearchEventHandler}"/>
+-->
+    <!-- Financial Account Search --> 
+<aura:attribute name="varFinancialAccountObj" type="Object" description="For holding the selected record from customlookup" />
+<aura:attribute name="varFA_AdditionalQryFields" type="string" default=",Financial_Account_Number__c,Client__c,Client__r.FirstName,Client__r.LastName,Client__r.SSN__c,Client__r.RecordType.DeveloperName,Client__r.Rep_Number__c" 
+                    description="For additional fields for customlookup"/>
+<aura:handler name="change" value="{!v.varFinancialAccountObj}" action="{!c.onFinancialAccountSelect}"/>
+<aura:attribute name="varRadioSoli_UnSoli" type="List" default="[
+    {'label': 'Solicited', 'value': 'Solicited'},
+    {'label': 'Unsolicited', 'value': 'Unsolicited'} ]"/>
+<!-- aura:attribute name="varSelectedRadioSoli_UnSoli" type="String" / -->
+
+
+<!-- Checks -->
+<aura:attribute name="varCheckList" type="Contact[]"/>
+<aura:attribute name="varcheckDelayReason" type="String[]"/>    
+<aura:attribute name="varRadioChecksIncluded" type="List" default="[
+    {'label': 'Yes', 'value': 'Yes'},
+    {'label': 'No', 'value': 'No'} ]"/>
+<aura:attribute name="varSelectedChecksIncluded" type="String" default=""/> 
+<aura:attribute name="varDataUploded" type="boolean" default="false" /> 
+
+    <!-- Archive Doc -->
+<aura:attribute name="varIsArchiveClicked" type="boolean" default="false" />   
+<aura:attribute name="varAccountNo" type="String" default=""/>     
+
+ <div class="slds-m-around_xx-large">
+    <!-- Modal Box -->    
+  <aura:if isTrue="{!v.varIsModalOpen}">
+   
+ <div>
+   <div style="width: auto;">
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open" >
+     <div class="slds-modal__container" >
+      <header class="slds-modal__header">
+       <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{!v.varHeaderValue}</h2>
+          <br />
+          <aura:if isTrue="{!(v.varErrorMsg != '')}">
+             <div class="slds-col slds-p-horizontal_small slds-size_1-of-1" id="errorBox">
+          <p style="color:red;border: 1px solid red; padding: 5px;">
+            <center><b>{!v.varErrorMsg}</b></center></p>
+            
+          </div></aura:if>
+        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick="{! c.closeModal }">
+         <lightning:icon iconName="utility:close" alternativeText="Close" class="slds-icon-fill"/>
+        </button>
+      </header>
+      
+      <div class="slds-modal__content" id="modal-content-id-1" >
+       <div class="slds-grid slds-wrap slds-m-top_large" >
+           
+      	
+        <aura:if isTrue="{!!v.varIsArchiveClicked}">     
+        <div class="slds-col slds-p-horizontal_small slds-size_1-of-1">            
+		<lightning:radioGroup name="radioGroup1" label="{!v.varEBWrapper.radioButtonLabel}"
+                      options="{! v.varRadioButtonOptions}" value="{! v.varSelectedRadioButtonVal}" type="radio" style="display:inline-block " onchange="{!c.radioButtonClicked}"/>
+         
+        </div> 
+          
+  
+        <aura:if isTrue="{!(v.varSelectedRadioButtonVal== 'Yes')}">
+        <div class="slds-col slds-p-horizontal_small slds-size_1-of-12">
+         <br /><span style="display: inline-block;margin-top: 9px;">WI-</span>
+                 
+     	</div> 
+        <div class="slds-col slds-p-horizontal_small slds-size_1-of-1s2">  
+       
+		<lightning:input name="Request Number" type="text" pattern="[0-9]*" label="Request Number" value="{!v.varEBWrapper.requestNumber}" onkeyup="{!c.checkRequestNumber}" onfocusout="{!c.outReqestNumber}"/>
+         <span id="requestNoId" style="display:none;color:red;"><b>Enter only Integer Number</b></span>       
+           
+        </div>
+            
+        </aura:if>
+        <aura:if isTrue="{!(v.varSelectedRadioButtonVal == 'No')}">  
+         <aura:if isTrue="{!(v.varEBWrapper.businessType == 'New Business')}" >
+         <!-- New Business -->
+          
+	      <div class="slds-col slds-p-horizontal_small slds-size_1-of-1 slds-m-top_medium">
+          <label><span class="slds-text-heading_x-small">Client</span></label>
+		  <!--c:customLookup objectAPIName="Account" IconName="standard:account" 
+                                            selectedRecord="{!v.varClientObj}" 
+                                            additionalQryFields="{!v.varAdditionalQryFields}" 
+                                            label=" " showlabel="false"/ -->
+          </div>
+           <div class="slds-col slds-p-horizontal_small slds-size_1-of-1">
+              <center><b>OR</b></center>
+           </div>
+          
+           <div class="slds-col slds-p-horizontal_small slds-size_1-of-2">          
+            <lightning:input name="First Name" label="First Name" value="{!v.varEBWrapper.firstName}" disabled="{!v.varEBWrapper.isClientSelected}" onchange="{!c.onFirstName}"/>
+            </div>
+           <div class="slds-col slds-p-horizontal_small slds-size_1-of-2">
+            <lightning:input name="Last Name/Entity" label="Last Name/Entity" value="{!v.varEBWrapper.lastName}" disabled="{!v.varEBWrapper.isClientSelected}" onchange="{!c.onLastName}"/>
+          </div> 
+          
+          <div class="slds-col slds-p-horizontal_small slds-size_1-of-2">
+           
+           <lightning:input label="Client SSN" name="ClientSSN" value="{!v.varEBWrapper.SSN}" disabled="{!v.varEBWrapper.isClientSelected}" onchange="{!c.onClientSSN}" onfocusout="{!c.outClientSSN}"/>             
+		   <span id="SSNId" style="display:none;color:red;"><b>Enter only Integer Number</b></span>                  
+          
+         </div>
+          <div class="slds-col slds-p-horizontal_small slds-size_1-of-2">
+          <!--label><span class="slds-text-heading_x-small">Entity</span></label --> 
+          <br />
+          <lightning:input type="checkbox" label="Entity" name="Entity" aura:id="Entity"  
+                           checked="{!v.varEBWrapper.entity}" disabled="{!v.varEBWrapper.isClientSelected}" onchange="{!c.onEntity}"/>
+          </div>
+         
+          <div class="slds-col slds-p-horizontal_small slds-size_1-of-1 slds-m-top_medium">
+          <label><span class="slds-text-heading_x-small">Rep Number<span class="slds-text-color_error">&nbsp;*</span></span></label>                        
+            <!--c:customLookup objectAPIName="User" IconName="standard:user" aura:id="customComp"
+                                                    selectedRecord="{!v.varRepNumberObj}" 
+                                                    label=" " showlabel="false" 
+                                                    isRepNumSearch="true"
+                                                    OpenRepNumberSearch="{!v.varOpenRepNumberSearch}"
+                                                    SearchKeyWord= "{!v.varNewRepName}"/ -->   
+                    
+             </div>
+            <div aura:id="lookupDiv"></div>
+             <!-- Existing Business -->
+             <aura:set attribute="else">
+             
+             <div class="slds-col slds-p-horizontal_small slds-size_1-of-1 slds-m-top_medium">
+          	  <label><span class="slds-text-heading_x-small">Account Number<span class="slds-text-color_error">&nbsp;*</span></span></label>
+		  	  <!-- c:customLookup objectAPIName="Financial_Account__c" IconName="standard:account" 
+                                            selectedRecord="{!v.varFinancialAccountObj}" 
+                                            additionalQryFields="{!v.varFA_AdditionalQryFields}" 
+                                            label=" " showlabel="false"/-->
+             </div>
+             <br />
+             
+            </aura:set>
+          
+           </aura:if>
+            
+            <div class="slds-col slds-p-horizontal_small slds-size_1-of-2 ">
+              <lightning:select name="select" label="Sponsor/Custodian" value="{!v.varEBWrapper.selectedSponsor_Cust}" required="true" onchange="{!c.onSponsorCust}">
+                <option value="None">--- None ---</option>
+                <option value="PERSHING">PERSHING</option>
+                <option value="VOYA INSTITUTIONAL TRUST">VOYA INSTITUTIONAL TRUST</option>
+                <option value="" disabled="true"><b>-----------------------------------------------------</b></option>
+                <aura:iteration items="{!v.varSponsor_CustodianList}" var="spon">
+                    <option value="{!spon.value}">{!spon.label}</option>
+                </aura:iteration>
+            </lightning:select>
+           </div> 
+         <aura:if isTrue="{!(v.varEBWrapper.selectedSponsor_Cust == 'OTHER')}">
+          <div class="slds-col slds-p-horizontal_small slds-size_1-of-2">
+            <lightning:input name="OtherSponsor/Custodian" label="Other Sponsor/Custodian" value="{!v.varEBWrapper.eBlotter.Other_Sponsor_Custodian__c}" required="true" onchange="{!c.onOtherSponsorCust}"/>
+          </div>
+          </aura:if>
+	   
+   		</aura:if> <!-- End of No -->
+       <aura:if isTrue="{!v.varSelectedRadioButtonVal != ''}">   
+        <!-- B-92550 Checks -->
+        <div class="slds-col slds-p-horizontal_small slds-size_1-of-2">            
+		 <lightning:radioGroup name="radioGroup3" label="Checks Included?"
+                      options="{! v.varRadioChecksIncluded}" value="{! v.varSelectedChecksIncluded}" type="radio" onchange="{!c.onChecksIncluded}"/>
+         
+        </div> 
+		<aura:if isTrue="{!(v.varSelectedChecksIncluded == 'Yes')}">
+            
+          <div class="slds-col slds-p-horizontal_small slds-size_1-of-2">
+             <lightning:select name="SourceOfFunds" aura:id="SourceOfFundsId" label="Source Of Funds" value="{!v.varEBWrapper.selectedSOF}" required="true" onchange="{!c.onSOF}">
+               	 <option value="None">--- None ---</option>
+                 <aura:iteration items="{!v.varSourceOfFundsList}" var="source">                   
+                    <option value="{!source.value}">{!source.label}</option>
+                </aura:iteration>
+            </lightning:select>
+           </div> 
+          <aura:if isTrue="{!(v.varEBWrapper.selectedSOF == 'Other')}">
+          <div class="slds-col slds-p-horizontal_small slds-size_1-of-2">
+            <lightning:input name="OtherSOF" label="Other Source Of Funds" value="{!v.varEBWrapper.eBlotter.Other_Source_of_Funds__c}" required="true" onchange="{!c.onOtherSOF}"/>
+          </div>
+          </aura:if>
+          <div class="slds-col slds-p-horizontal_small slds-size_1-of-2">
+              <lightning:input type="date" aura:id="branchReceivedDateId"  name="Branch Received Date" value="{!v.varEBWrapper.eBlotter.Branch_Received_Date__c}" label="Branch Received Date" onchange="{!c.onBRDateChange}" required="true"/>
+          	 <span id="BRD" style="display:none;color:red;"><b>The Branch Received Date must be the present date or a date upto 90 days in the past.</b></span>      
+            	
+          </div>
+          <div class="slds-col slds-p-horizontal_small slds-size_1-of-2">
+              <lightning:input  aura:id="overNightTrackingId" name="Over Night Tracking" value="{!v.varEBWrapper.eBlotter.Overnight_Tracking__c}" label="Over Night Tracking #" />
+          </div>
+          <div class="slds-col slds-p-horizontal_small slds-size_1-of-2">            
+			<lightning:radioGroup name="radioGroup2" label="Choose One"
+                      options="{! v.varRadioSoli_UnSoli}" value="{!v.varEBWrapper.eBlotter.Solicited_UnSolicited__c}" type="radio" required="true" onchange="{!c.onRadioSoli_UnSoli}"/>
+         
+        </div>   
+         <!-- Check Info -->   
+       
+           <aura:iteration items="{!v.varCheckList}" var="check" indexVar="index">
+             <div class="slds-col slds-p-horizontal_small slds-size_1-of-1">    
+            <div class="slds-border_bottom "><b>Check Information {!index+1}</b></div>
+                 <br />
+             </div>
+              <div class="slds-col slds-p-horizontal_small slds-size_1-of-2">
+                   <lightning:input name="{!('CID ' + (index+1))}" type="date" label="Check Issue Date" value="{!check.Check_Issue_Date__c}" onchange="{!c.onCheckIssueDateChange}" required="true"/>
+                   <span id="{!('CID ' + (index+1))}" style="display:none;color:red;"><b>The Check Issue Date must be the present date or a date upto 90 days in the past.</b></span>      
+               </div>
+             <div class="slds-col slds-p-horizontal_small slds-size_1-of-2">
+                   <lightning:input name="{!('CM ' + (index+1))}"  type="text" label="Check Amount"  value="{!check.Check_Amount__c}" onkeyup="{!c.onCheckAmount}" onfocusout="{!c.outCheckAmount}" required="true"/>
+            	 <span id="{!('CM ' + (index+1))}" style="display:none;color:red;"><b>Enter only Number</b></span>  
+                
+             </div>
+              <div class="slds-col slds-p-horizontal_small slds-size_1-of-2">
+               
+                <lightning:input name="{!('CNN ' + (index+1))}" type="text" label="Check Number" value="{!check.Check_Number__c}" pattern="[0-9]*" onkeyup="{!c.onCheckNumber}" onfocusout="{!c.outCheckNumber}" required="true" />
+               	<span id="{!('CN ' + (index+1))}" style="display:none;color:red;"><b>Enter only Integer Number</b></span>  
+                     
+             </div>
+              <div class="slds-col slds-p-horizontal_small slds-size_1-of-2">
+               <lightning:select name="{!('CDR ' + (index+1))}"  value="{!check.Check_Delay_Reason__c}" label="Check Delay Reason" onchange="{!c.onCheckDelayReasonChange}" required="true">
+               	 <option value="None"> None </option>
+                 <aura:iteration items="{!v.varcheckDelayReason}" var="cdr">                   
+                    <option value="{!cdr.value}">{!cdr.label}</option>
+                </aura:iteration>
+           	 </lightning:select>   
+             </div>
+             <div class="slds-col slds-p-horizontal_small slds-size_1-of-2">
+                 <lightning:input name="{!('CheckNotes ' + (index+1))}" type="text"  label="Check Notes" value="{!check.Check_Notes__c}" onchange="{!c.onCheckNotes}" />
+                 <span id="{!('CheckNotes ' + (index+1))}" style="display:none;color:red;"><b>Check Notes is required for section {!(index+1) }</b></span>       
+             </div>
+              <div class="slds-col slds-p-horizontal_medium slds-size_1-of-2">
+                 <br />
+                 <lightning:button  variant="destructive" name="{!('Remove Check ' + (index+1))}" 
+                                label="{!('Remove Check ' + (index+1))}" title="{!('Remove Check ' + (index+1))}" 
+                                onclick="{! c.removeRow }" iconName="utility:close" iconPosition="right" disabled="{!(v.varCheckList.length == 1)}" />
+                   
+                 </div>
+             
+               <div class="slds-col slds-p-horizontal_small slds-size_1-of-1"> 
+               <br />
+               </div>
+             
+           </aura:iteration>
+            <br />
+                    
+             <div class="slds-col slds-p-horizontal_small slds-size_1-of-1"> 
+               <br />
+              <center>
+           <lightning:button variant="brand" label="Add Another Check" title="Add Another Check" onclick="{! c.addRow }" iconName="utility:add" iconPosition="right"/>
+            </center>
+            </div>
+          </aura:if>  <!-- End Checks -->
+         </aura:if>  <!-- End of Checks included radio --> 
+        </aura:if> 
+           <!-- Story B-92873 Archive Document -->
+        <aura:if isTrue="{!v.varIsArchiveClicked}"> 
+         <div class="slds-col slds-p-horizontal_small slds-size_1-of-1 slds-m-top_medium">
+          <label><span class="slds-text-heading_x-small">Client</span></label>
+		   <!--c:customLookup objectAPIName="Account" IconName="standard:account" 
+                                            selectedRecord="{!v.varClientObj}" 
+                                            additionalQryFields="{!v.varAdditionalQryFields}" 
+                                            label=" " showlabel="false"/ -->
+          </div>
+          <br />
+           <div class="slds-col slds-p-horizontal_small slds-size_1-of-1 slds-m-top_medium">
+          	<!-- label><span class="slds-text-heading_x-small">Account Number</span></label -->
+            
+		  	 <lightning:input name="Account Number" type="text" label="Account Number" value="{!v.varAccountNo}" onkeyup="{!c.checkAccountNumber}"/>
+             <!-- span id="accountNoId" style="display:none;color:red;"><b>Enter only Integer Number</b></span -->       
+          
+            </div>
+            <div class="slds-col slds-p-horizontal_small slds-size_1-of-1 slds-m-top_medium"></div>
+          <br />
+          
+        </aura:if>
+      </div>
+              
+        <br />          
+      </div> 
+        
+      <footer class="slds-modal__footer">
+       <aura:if isTrue="{!or(v.varSelectedRadioButtonVal != '', v.varIsArchiveClicked) }">
+       <lightning:button variant="brand" label="Upload" title="Upload" onclick="{! c.upload }" disabled="{!v.varDataUploded}"/>
+       </aura:if>
+       <lightning:button variant="neutral" label="Cancel" title="Cancel" onclick="{! c.closeModal }"/>
+      
+      </footer>   
+    
+        </div>
+  </section>
+  </div>
+ </div>
+     <div class="slds-backdrop slds-backdrop_open"></div>  
+ </aura:if>
+ </div>  
+ 
+</aura:component>

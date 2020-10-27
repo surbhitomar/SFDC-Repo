@@ -1,0 +1,82 @@
+<aura:component controller="VF_and_LC_CommunicationCtrl"
+    implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+    access="global">
+
+    <!--Declare Attributes-->
+    <aura:attribute name="recordIdVar" type="string" />
+    <aura:attribute name="toAddress" type="string" />
+    <aura:attribute name="templateId" type="string" />
+    <aura:attribute name="objectName" type="string" />
+    <aura:attribute name="fromAddress" type="string" default="surbhi37tomar@gmail.com" />
+    <aura:attribute name="mailStatus" type="boolean" default="false" />
+    <aura:attribute name="emailWrapperVar" type="Object"/>
+    <aura:attribute name="selectedRecordToVar" type="sObject"/>
+    <aura:attribute name="selectedRecordAdditionalToVar" type="sObject[]" default="[]" />
+    <aura:attribute name="selectedRecordCCVar" type="sObject[]" default="[]" />
+    <aura:attribute name="selectedRecordBCCVar" type="sObject[]" default="[]" />
+    <aura:attribute name="parentInitialized" type="boolean" default="false"/>
+    
+    <!--Events-->
+    <aura:registerEvent name="lightningAppExternalEvent" type="c:lightningAppExternalEvent" />
+
+	<!--Declare Handlers-->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler name="oSelectedRecordEvent" event="c:selectedsObjectRecordEvent" action="{!c.handleComponentEvent}"/>
+    <aura:handler name="oSelectedMultiRecordEvent" event="c:selectedsObjectRecordsEvent" action="{!c.handleMultiSelectCompEvent}"/>
+     
+    <!--component attributs -->
+    <aura:attribute name="spinner" type="boolean" default="FALSE"/>
+    <!--loading spinner start-->
+    <aura:if isTrue="{!v.spinner}">
+        <div aura:id="spinnerId" class="slds-spinner_container">
+            <div class="slds-spinner--brand  slds-spinner slds-spinner--large slds-is-relative" role="alert">
+                <span class="slds-assistive-text">Loading...</span>
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+        </div>
+    </aura:if>
+    <!-- Loading spinner end-->
+    
+    <lightning:input type ="email" name="fromAddress" disabled="true" value="{!v.fromAddress}" label="From" />
+    
+    <aura:if isTrue ="{!v.parentInitialized}"> 
+    	<c:customLookup objectAPIName="Account" selectedRecord="{!v.selectedRecordToVar}" label="To" IconName="standard:account"/>
+    </aura:if>
+    
+    <c:reUsableMultiSelectLookup objectAPIName="User" lstSelectedRecords="{!v.selectedRecordAdditionalToVar}" label="Additional To"  IconName="standard:user"/>
+    <c:reUsableMultiSelectLookup objectAPIName="User" lstSelectedRecords="{!v.selectedRecordCCVar}" label="CC" IconName="standard:user"/>
+    <c:reUsableMultiSelectLookup objectAPIName="User" lstSelectedRecords="{!v.selectedRecordBCCVar}" label="BCC" IconName="standard:user"/>
+    
+    <lightning:input value="{!v.emailWrapperVar.templateSubject}" placeholder="Subject" label="Subject"/>
+     <br/>
+     <lightning:inputRichText value="{!v.emailWrapperVar.templateBody}" placeholder="Email Body......."/>
+        <aura:if isTrue="{!v.mailStatus}">
+                    <div role="alertdialog" tabindex="-1" aria-labelledby="prompt-heading-id"
+                        aria-describedby="prompt-message-wrapper"
+                        class="slds-modal slds-fade-in-open slds-modal--prompt">
+                        <div class="slds-modal__container">
+                            <div class="slds-modal__header slds-theme--success slds-theme--alert-texture">
+                                <h2 class="slds-text-heading--medium" id="prompt-heading-id">Mail Status</h2>
+                            </div>
+                            <div class="slds-modal__content slds-p-around--medium">
+                                <div>
+                                    <!--p>Email Sent successfully to {!v.toAddress}</p -->
+                                    <p>Email Sent successfully</p>
+                                </div>
+                            </div>
+                            <div class="slds-modal__footer slds-theme--default">
+                                <button class="slds-button slds-button--brand"
+                                    onclick="{!c.closeMessage}">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-backdrop slds-backdrop--open"></div>
+                </aura:if>
+    
+    <footer class="slds-modal__footer">
+        <button class="slds-button slds-button_brand" onclick="{!c.sendMail}">Send</button>
+		<button class="slds-button slds-button_neutral" onclick="{!c.closeMessage}">Cancel</button>
+        
+    </footer>
+</aura:component>

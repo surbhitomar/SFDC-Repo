@@ -1,0 +1,6 @@
+<aura:documentation>
+	<aura:description>Documentation</aura:description>
+	<aura:example name="ExampleName" ref="exampleComponentName" label="Label">
+		Adding account record in Lightning Component with Add Delete Rows functionality.
+	</aura:example>
+</aura:documentation>

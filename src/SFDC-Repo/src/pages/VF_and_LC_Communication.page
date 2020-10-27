@@ -1,0 +1,66 @@
+<apex:page lightningStylesheets="true" standardController="Contact" extensions="VF_and_LC_CommunicationCtrl" action="{!pageAction}">
+      
+     <apex:includeLightning />
+    <!-- Include required JavaScript libraries -->
+    <apex:includeScript value="/xdomain/xdomain.js"/>
+    <apex:includeScript value="/soap/ajax/33.0/connection.js"/>
+    <apex:includeScript value="/soap/ajax/33.0/apex.js"/>
+    <apex:includeScript value="/support/console/42.0/integration.js"/> 
+    <apex:pagemessages ></apex:pagemessages>
+     <div id="lightningComp" />
+    <script>
+        // Retrieve the current case Record sObject.
+        var contactId = '{!Contact.Id}'; 
+        var accountId = '{!Contact.accountId}'; //Can not access parentId from button
+    //console.log('contactId-->>'+contactId);
+    //console.log('accountId-->>'+accountId);
+        var email = '{!$CurrentPage.parameters.Email}';
+    //console.log('email-->>'+email);
+        var objectName = 'Contact';//'{!$CurrentPage.parameters.objectName}';   
+    //try{
+        sforce.connection.sessionId = '{!$Api.Session_ID}';
+                var queryResult = sforce.connection.query("SELECT id,Type FROM Account WHERE Id = '"+ accountId +"'" );
+                //Set the recipientEmail to the associated Person Account Email address.
+                var results = queryResult.getArray("records");
+                var accountType = results[0].Type;
+                var templateResult = sforce.connection.query("SELECT Id,name,DeveloperName,body,htmlvalue,subject FROM EmailTemplate WHERE DeveloperName='SendEmailFromLC' limit 1");
+                var templateResults = templateResult.getArray("records");
+                var templateId = templateResults[0].Id;
+               
+                    $Lightning.use("c:VF_and_LC_CommunicationApp", function() {
+                        $Lightning.createComponent("c:VF_and_LC_CommunicationCMP",
+                        { 
+                            recordIdVar : contactId,              
+                            toAddress : email,
+                            objectName : objectName,  
+                            templateId : templateId,
+                            
+                        },
+                            "lightningComp",
+                        function(cmp) {
+                        console.log('Component created successfully'); 
+                        $A.eventService.addHandler({ "event": "c:lightningAppExternalEvent", "handler" : visualForceFunction}); 
+                       });
+                    });   
+                
+             /*}catch(e){ 
+                alert('{!$Label.ProspectAccount}'); 
+                closeTab();
+            } */
+        
+        function closeTab(){
+            sforce.console.getEnclosingTabId(function closeSubtab(result)
+            { 
+                sforce.console.closeTab(result.id);
+            });
+        }
+    
+        var visualForceFunction = function(event){
+            //console.log('--visualForceFunction--')
+            var myEventData = event.getParam("data");
+            //console.log('myEventData in VF-->>'+myEventData);
+            closeTab();
+        };
+    </script>
+
+</apex:page>
