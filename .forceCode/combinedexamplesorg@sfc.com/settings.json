@@ -3,12 +3,12 @@
     "apiVersion": "48.0",
     "deployOptions": {
         "allowMissingFiles": true,
-        "checkOnly": false,
+        "checkOnly": true,
         "ignoreWarnings": true,
         "purgeOnDelete": false,
         "rollbackOnError": true,
         "runTests": [],
-        "singlePackage": true,
+        "singlePackage": false,
         "testLevel": "Default"
     },
     "isDeveloperEdition": true,
